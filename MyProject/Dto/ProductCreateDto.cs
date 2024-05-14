@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MyProject.Models.Dto
 {
     public class ProductCreateDto
     {
-        public ProductCreateDto(Product product)
+        [JsonConstructor]
+        public ProductCreateDto(string name, decimal price, string? description)
         {
-            Name = product.Name;
-            Price = product.Price;
-            Description = product.Description;
+            Name = name;
+            Price = price;
+            Description = description;
         }
 
         public string? Name { get; set; }
