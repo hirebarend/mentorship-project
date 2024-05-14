@@ -10,5 +10,6 @@ namespace MyProject.Controllers
     public interface IProductsController
     {
         Task<IActionResult> CreateProductAsync([FromBody] ProductCreateDto productCreateDto);
+        Task<IActionResult> GetProductAsync(int id);
     }
 }

@@ -37,5 +37,10 @@ namespace MyProject.Repositories
 
             return product;
         }
+
+        public async Task<Product> GetProductAsync(int id)
+        {
+            return await _context.Products.FindAsync(id);
+        }
     }
 }

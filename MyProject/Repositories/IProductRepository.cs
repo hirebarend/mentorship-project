@@ -10,5 +10,6 @@ namespace MyProject.Interfaces
     public interface IProductRepository
     {
         Task<Product> CreateProductAsync(ProductCreateDto productCreateDto);
+        Task<Product> GetProductAsync(int id);
     }
 }

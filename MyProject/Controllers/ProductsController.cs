@@ -35,12 +35,36 @@ namespace MyProject.Products.Controller
                     Description = product.Description
                 };
 
-                return CreatedAtAction(nameof(CreateProductAsync), new { id = product.Id }, productDto);
+                var url = Url.Action(nameof(GetProductAsync), new { id = product.Id });
+                return Created(url, productDto);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
             {
                 return StatusCode(500, "Failed to save the product to the database.");
             }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductAsync(int id)
+        {
+            var product = await _productRepository.GetProductAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var productDto = new ProductDto
+            {
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description
+            };
+
+            return Ok(productDto);
         }
     }
 }
