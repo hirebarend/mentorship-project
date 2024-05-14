@@ -4,50 +4,43 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Data;
+using MyProject.Interfaces;
 using MyProject.Models;
 using MyProject.Models.Dto;
 
 namespace MyProject.Products.Controller
 {
     [Route("api/[controller]")]
-[ApiController]
-public class ProductsController : ControllerBase
-{
-    private readonly MyDbContext _context;
-
-    public ProductsController(MyDbContext context)
+    [ApiController]
+    public class ProductsController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly IProductRepository _productRepository;
 
-    [HttpPost]
-    public async Task<IActionResult> CreateProduct([FromBody] ProductCreateDto productCreateDto)
-    {
-        if (string.IsNullOrEmpty(productCreateDto.Name) || productCreateDto.Price <= 0)
+        public ProductsController(IProductRepository productRepository)
         {
-            return BadRequest("Name and price are required for a product.");
+            _productRepository = productRepository;
         }
 
-        try
+        [HttpPost]
+        public async Task<IActionResult> CreateProductAsync([FromBody] ProductCreateDto productCreateDto)
         {
-            var product = new Product
+            try
             {
-                Name = productCreateDto.Name,
-                Price = productCreateDto.Price,
-                Description = productCreateDto.Description
-            };
+                var product = await _productRepository.CreateProductAsync(productCreateDto);
 
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
-        }
-        catch (Exception)
-        {
-            // Log the exception or handle it as necessary
-            return StatusCode(500, "Failed to save the product to the database.");
-        }
+                var productDto = new ProductDto
+                {
+                    Name = product.Name,
+                    Price = product.Price,
+                    Description = product.Description
+                };
 
-        // Return a Product object without the Id, UpdatedAt, and IsActive properties
-        return Ok(productCreateDto);
+                return CreatedAtAction(nameof(CreateProductAsync), new { id = product.Id }, productDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Failed to save the product to the database.");
+            }
+        }
     }
-}
 }
