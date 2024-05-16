@@ -6,16 +6,17 @@ using MyProject.Data;
 using MyProject.Interfaces;
 using MyProject.Models;
 using MyProject.Models.Dto;
+using MyProject.src.Models;
 
-namespace MyProject.Repositories
+namespace MyProject.Services
 {
-    public class ProductRepository : IProductRepository
+    public class ProductService : IProductService
     {
-        private readonly MyDbContext _context;
+        private readonly IProductRepository _productRepository;
 
-        public ProductRepository(MyDbContext context)
+        public ProductService(IProductRepository productRepository)
         {
-            _context = context;
+            _productRepository = productRepository;
         }
 
         public async Task<Product> CreateProductAsync(ProductCreateDto productCreateDto)
@@ -24,23 +25,13 @@ namespace MyProject.Repositories
             {
                 throw new ArgumentException("Name and price are required for a product.");
             }
-
-            var product = new Product
-            {
-                Name = productCreateDto.Name,
-                Price = productCreateDto.Price,
-                Description = productCreateDto.Description
-            };
-
-            await _context.Products.AddAsync(product);
-            await _context.SaveChangesAsync();
-
-            return product;
+            
+            return await _productRepository.CreateProductAsync(productCreateDto);
         }
 
         public async Task<Product> GetProductAsync(int id)
         {
-            return await _context.Products.FindAsync(id);
+            return await _productRepository.GetProductAsync(id);
         }
     }
 }

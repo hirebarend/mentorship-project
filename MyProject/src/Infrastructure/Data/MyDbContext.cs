@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyProject.Models;
+using MyProject.src.Models;
 
 namespace MyProject.Data
 {

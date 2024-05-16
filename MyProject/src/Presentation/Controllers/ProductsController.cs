@@ -14,19 +14,21 @@ namespace MyProject.Products.Controller
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IProductService _productService;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductService productService)
         {
-            _productRepository = productRepository;
+            _productService = productService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProductAsync([FromBody] ProductCreateDto productCreateDto)
+        public async Task<IActionResult> CreateProduct([FromBody] ProductCreateDto productCreateDto)
         {
             try
             {
-                var product = await _productRepository.CreateProductAsync(productCreateDto);
+                // var product = await _productRepository.CreateProductAsync(productCreateDto);
+
+                var product = await _productService.CreateProductAsync(productCreateDto);
 
                 var productDto = new ProductDto
                 {
@@ -51,7 +53,7 @@ namespace MyProject.Products.Controller
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductAsync(int id)
         {
-            var product = await _productRepository.GetProductAsync(id);
+            var product = await _productService.GetProductAsync(id);
             if (product == null)
             {
                 return NotFound();
