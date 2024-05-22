@@ -4,26 +4,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MyProject.src.Models
+namespace MyProject.src.Application.Dto
 {
-    public partial class Product
+    public class UpdateDTO
     {
-        public int Id { get; set; }
+        public int Id { get; set;}
         [Required]
         public string? Name { get; set; }
         [Required]
         public decimal Price { get; set; }
+        [Required]
         public string? Description { get; set; }
         public bool IsActive { get; set; }
-        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-    }
-
-    public partial class Product
-    {
-        public void SetUpdatedAt()
-        {
-            UpdatedAt = DateTime.Now;
-        }
     }
 }

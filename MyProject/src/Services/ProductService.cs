@@ -6,6 +6,8 @@ using MyProject.Data;
 using MyProject.Interfaces;
 using MyProject.Models;
 using MyProject.Models.Dto;
+using MyProject.src.Application.Dto;
+using MyProject.src.Domain.Models.Exceptions;
 using MyProject.src.Models;
 
 namespace MyProject.Services
@@ -25,13 +27,40 @@ namespace MyProject.Services
             {
                 throw new ArgumentException("Name and price are required for a product.");
             }
-            
+
             return await _productRepository.CreateProductAsync(productCreateDto);
         }
 
         public async Task<Product> GetProductAsync(int id)
         {
             return await _productRepository.GetProductAsync(id);
+        }
+
+
+        public async Task<Product> FindByNameAsync(string name)
+        {
+            try
+            {
+                return await _productRepository.FindByNameAsync(name);
+            }
+            catch (Exception)
+            {
+                // Return a default value or throw a custom exception
+                throw new NotFoundException("Product not found");
+            }
+        }
+
+        public async Task<Product> UpdateAsync(UpdateDTO product)
+        {
+            try
+            {
+                return await _productRepository.UpdateAsync(product);
+            }
+            catch (Exception)
+            {
+                // Return a default value or throw a custom exception
+                throw new NotFoundException("Product not found");
+            }
         }
     }
 }

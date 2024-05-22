@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MyProject.Models;
 using MyProject.Models.Dto;
+using MyProject.src.Application.Dto;
 using MyProject.src.Models;
 
 namespace MyProject.Interfaces
@@ -12,5 +13,7 @@ namespace MyProject.Interfaces
     {
         Task<Product> CreateProductAsync(ProductCreateDto productCreateDto);
         Task<Product> GetProductAsync(int id);
+        Task<Product> FindByNameAsync(string name);
+        Task<Product> UpdateAsync(UpdateDTO product);
     }
 }
