@@ -45,7 +45,6 @@ namespace MyProject.Services
             }
             catch (Exception)
             {
-                // Return a default value or throw a custom exception
                 throw new NotFoundException("Product not found");
             }
         }
