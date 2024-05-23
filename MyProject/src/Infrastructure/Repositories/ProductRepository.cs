@@ -79,5 +79,18 @@ namespace MyProject.Repositories
             await _context.SaveChangesAsync();
             return existingProduct;
         }
+
+        public async Task<IEnumerable<Product>> GetAllAsync()
+        {
+            var existingProducts = await _context.Products.ToListAsync();
+            if (existingProducts.Any())
+            {
+                return existingProducts;
+            }
+            else
+            {
+                throw new NotFoundException("No products found");
+            }
+        }
     }
 }

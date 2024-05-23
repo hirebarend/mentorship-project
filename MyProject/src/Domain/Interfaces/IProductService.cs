@@ -15,6 +15,6 @@ namespace MyProject.Interfaces
         Task<Product> FindByNameAsync(string name);
         Task<Product> UpdateAsync(UpdateDTO product);
         Task<Product> DeleteAsync(int id);
-
+        Task<IEnumerable<Product>> GetAllAsync();
     }
 }

@@ -92,5 +92,12 @@ namespace MyProject.Products.Controller
             var deletedProduct = await _productService.DeleteAsync(id);
             return Ok(deletedProduct);
         }
+
+        [HttpGet("/product")]
+        public async Task<IEnumerable<Product>> GetAllAsync()
+        {
+            var allProduct = await _productService.GetAllAsync();
+            return allProduct;
+        }
     }
 }

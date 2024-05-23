@@ -52,5 +52,10 @@ namespace MyProject.Services
         {
             return await _productRepository.DeleteAsync(id);
         }
+
+        public async Task<IEnumerable<Product>> GetAllAsync()
+        {
+            return await _productRepository.GetAllAsync();
+        }
     }
 }
