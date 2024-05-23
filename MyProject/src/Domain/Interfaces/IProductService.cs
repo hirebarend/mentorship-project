@@ -12,7 +12,6 @@ namespace MyProject.Interfaces
     public interface IProductService
     {
         Task<Product> CreateProductAsync(ProductCreateDto productCreateDto);
-        Task<Product> GetProductAsync(int id);
         Task<Product> FindByNameAsync(string name);
         Task<Product> UpdateAsync(UpdateDTO product);
     }

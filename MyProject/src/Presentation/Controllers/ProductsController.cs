@@ -50,25 +50,6 @@ namespace MyProject.Products.Controller
             }
         }
 
-        // [HttpGet("/product/get/{id}")]
-        // public async Task<IActionResult> GetProductAsync(int id)
-        // {
-        //     var product = await _productService.GetProductAsync(id);
-        //     if (product == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     var productDto = new ProductDto
-        //     {
-        //         Name = product.Name,
-        //         Price = product.Price,
-        //         Description = product.Description
-        //     };
-
-        //     return Ok(productDto);
-        // }
-
         [HttpGet("/product/{name}")]
         public async Task<IActionResult> FindByNameAsync(string name)
         {

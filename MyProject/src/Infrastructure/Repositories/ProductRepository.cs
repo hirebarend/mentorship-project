@@ -37,19 +37,12 @@ namespace MyProject.Repositories
             return product;
         }
 
-        public async Task<Product> GetProductAsync(int id)
-        {
-            var product = await _context.Products.FindAsync(id) ?? throw new InvalidOperationException("Product not found");
-            return product;
-        }
-
         public async Task<Product> FindByNameAsync(string name)
         {
             var product = await _context.Products.FirstOrDefaultAsync(p => p.Name == name);
             if (product == null)
             {
-                // Throw a NotFoundException with a null innerException
-                throw new NotFoundException("Product not found in repositor");
+                throw new NotFoundException("Product not found");
             }
             return product;
         }
@@ -57,10 +50,10 @@ namespace MyProject.Repositories
         public async Task<Product> UpdateAsync(UpdateDTO product)
         {
             var existingProduct = await _context.Products.FindAsync(product.Id);
-            // Console.WriteLine(existingProduct);
+
             if (existingProduct == null)
             {
-                throw new NotFoundException("Product not found in repository");
+                throw new NotFoundException("Product not found");
             }
 
             existingProduct.Id = product.Id;
