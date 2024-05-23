@@ -66,5 +66,18 @@ namespace MyProject.Repositories
             await _context.SaveChangesAsync();
             return existingProduct;
         }
+
+        public async Task<Product> DeleteAsync(int id)
+        {
+            var existingProduct = await _context.Products.FindAsync(id);
+            if (existingProduct == null)
+            {
+                throw new NotFoundException("Product not found");
+            }
+
+            _context.Products.Remove(existingProduct);
+            await _context.SaveChangesAsync();
+            return existingProduct;
+        }
     }
 }

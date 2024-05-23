@@ -31,12 +31,6 @@ namespace MyProject.Services
             return await _productRepository.CreateProductAsync(productCreateDto);
         }
 
-        public async Task<Product> GetProductAsync(int id)
-        {
-            return await _productRepository.GetProductAsync(id);
-        }
-
-
         public async Task<Product> FindByNameAsync(string name)
         {
             try
@@ -52,6 +46,11 @@ namespace MyProject.Services
         public async Task<Product> UpdateAsync(UpdateDTO product)
         {
             return await _productRepository.UpdateAsync(product);
+        }
+
+        public async Task<Product> DeleteAsync(int id)
+        {
+            return await _productRepository.DeleteAsync(id);
         }
     }
 }
