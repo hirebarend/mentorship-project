@@ -85,5 +85,12 @@ namespace MyProject.Products.Controller
             var updatedProduct = await _productService.UpdateAsync(updateDto);
             return Ok(updatedProduct);
         }
+
+        [HttpDelete("/product/delete/{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            var deletedProduct = await _productService.DeleteAsync(id);
+            return Ok(deletedProduct);
+        }
     }
 }

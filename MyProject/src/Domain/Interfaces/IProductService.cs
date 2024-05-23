@@ -14,5 +14,7 @@ namespace MyProject.Interfaces
         Task<Product> CreateProductAsync(ProductCreateDto productCreateDto);
         Task<Product> FindByNameAsync(string name);
         Task<Product> UpdateAsync(UpdateDTO product);
+        Task<Product> DeleteAsync(int id);
+
     }
 }
