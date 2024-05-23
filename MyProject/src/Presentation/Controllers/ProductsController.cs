@@ -50,24 +50,24 @@ namespace MyProject.Products.Controller
             }
         }
 
-        [HttpGet("/product/get/{id}")]
-        public async Task<IActionResult> GetProductAsync(int id)
-        {
-            var product = await _productService.GetProductAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+        // [HttpGet("/product/get/{id}")]
+        // public async Task<IActionResult> GetProductAsync(int id)
+        // {
+        //     var product = await _productService.GetProductAsync(id);
+        //     if (product == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            var productDto = new ProductDto
-            {
-                Name = product.Name,
-                Price = product.Price,
-                Description = product.Description
-            };
+        //     var productDto = new ProductDto
+        //     {
+        //         Name = product.Name,
+        //         Price = product.Price,
+        //         Description = product.Description
+        //     };
 
-            return Ok(productDto);
-        }
+        //     return Ok(productDto);
+        // }
 
         [HttpGet("/product/{name}")]
         public async Task<IActionResult> FindByNameAsync(string name)
@@ -91,50 +91,18 @@ namespace MyProject.Products.Controller
         [HttpPatch("/product/update/{id}")]
         public async Task<IActionResult> UpdateAsync(int id, [FromBody] UpdateDTO product)
         {
-            if (id != product.Id)
+
+            var updateDto = new UpdateDTO
             {
-                return BadRequest();
-            }
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                IsActive = product.IsActive
+            };
 
-            try
-            {
-                var existingProduct = await _productService.GetProductAsync(id);
-                if (existingProduct == null)
-                {
-                    return NotFound();
-                }
-
-                if (product.Name != null)
-                {
-                    existingProduct.Name = product.Name;
-                }
-
-                if (product.Description != null)
-                {
-                    existingProduct.Description = product.Description;
-                }
-
-                if (product.Price > 0)
-                {
-                    existingProduct.Price = product.Price;
-                }
-
-                var updateDto = new UpdateDTO
-                {
-                    Id = existingProduct.Id,
-                    Name = existingProduct.Name,
-                    Description = existingProduct.Description,
-                    Price = existingProduct.Price,
-                    IsActive = existingProduct.IsActive
-                };
-
-                var updatedProduct = await _productService.UpdateAsync(updateDto);
-                return Ok(updatedProduct);
-            }
-            catch (Exception)
-            {
-                throw new NotFoundException("Product not found");
-            }
+            var updatedProduct = await _productService.UpdateAsync(updateDto);
+            return Ok(updatedProduct);
         }
     }
 }

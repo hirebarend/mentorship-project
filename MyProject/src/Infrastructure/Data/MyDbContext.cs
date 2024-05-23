@@ -36,20 +36,20 @@ namespace MyProject.Data
             modelBuilder.Entity<Product>()
                 .Property(p => p.IsActive)
                 .HasDefaultValue(true);
-            
+
             modelBuilder.Entity<Product>()
                 .Property(p => p.IsActive)
                 .HasDefaultValue(true);
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.CreatedAt)
-                .HasDefaultValueSql("GETDATE()")
+                .HasDefaultValue(DateTime.UtcNow)
                 .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.UpdatedAt)
-                .HasDefaultValueSql("GETDATE()")
-                .ValueGeneratedOnAddOrUpdate();
+                .HasDefaultValue(DateTime.UtcNow)
+                .ValueGeneratedOnUpdate();
         }
     }
 }

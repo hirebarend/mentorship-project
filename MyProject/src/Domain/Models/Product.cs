@@ -23,7 +23,7 @@ namespace MyProject.src.Models
     {
         public void SetUpdatedAt()
         {
-            UpdatedAt = DateTime.Now;
+            UpdatedAt = DateTime.UtcNow;
         }
     }
 }

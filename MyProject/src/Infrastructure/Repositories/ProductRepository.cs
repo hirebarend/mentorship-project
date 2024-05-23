@@ -28,6 +28,7 @@ namespace MyProject.Repositories
                 Description = productCreateDto.Description,
                 IsActive = ProductActive,
                 CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
             };
 
             await _context.Products.AddAsync(product);
@@ -48,7 +49,7 @@ namespace MyProject.Repositories
             if (product == null)
             {
                 // Throw a NotFoundException with a null innerException
-                throw new NotFoundException("Product not found");
+                throw new NotFoundException("Product not found in repositor");
             }
             return product;
         }
@@ -56,9 +57,10 @@ namespace MyProject.Repositories
         public async Task<Product> UpdateAsync(UpdateDTO product)
         {
             var existingProduct = await _context.Products.FindAsync(product.Id);
-            if (product == null || existingProduct == null)
+            // Console.WriteLine(existingProduct);
+            if (existingProduct == null)
             {
-                throw new NotFoundException("Product not found");
+                throw new NotFoundException("Product not found in repository");
             }
 
             existingProduct.Id = product.Id;
@@ -66,7 +68,7 @@ namespace MyProject.Repositories
             existingProduct.Description = product.Description;
             existingProduct.Price = product.Price;
             existingProduct.IsActive = product.IsActive;
-            existingProduct.UpdatedAt = DateTime.Now;
+            existingProduct.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
             return existingProduct;

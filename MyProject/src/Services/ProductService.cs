@@ -52,15 +52,7 @@ namespace MyProject.Services
 
         public async Task<Product> UpdateAsync(UpdateDTO product)
         {
-            try
-            {
-                return await _productRepository.UpdateAsync(product);
-            }
-            catch (Exception)
-            {
-                // Return a default value or throw a custom exception
-                throw new NotFoundException("Product not found");
-            }
+            return await _productRepository.UpdateAsync(product);
         }
     }
 }
