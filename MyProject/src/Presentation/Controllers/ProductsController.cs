@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Data;
 using MyProject.Interfaces;
 using MyProject.Models;
 using MyProject.Models.Dto;
+using MyProject.src.Application;
 using MyProject.src.Application.Dto;
 using MyProject.src.Domain.Models.Exceptions;
 using MyProject.src.Models;
@@ -18,36 +20,49 @@ namespace MyProject.Products.Controller
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly IMediator _mediator;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, IMediator mediator)
         {
             _productService = productService;
+            _mediator = mediator;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductCreateDto productCreateDto)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
         {
-            try
-            {
-                var product = await _productService.CreateProductAsync(productCreateDto);
+            var product = await _mediator.Send(command);
 
-                var productDto = new ProductDto
-                {
-                    Name = product.Name,
-                    Price = product.Price,
-                    Description = product.Description
-                };
+            var productDto = new ProductDto
+            {
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description
+            };
 
-                return Ok(productDto);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Failed to save the product to the database.");
-            }
+            return Ok(productDto);
+
+            // try
+            // {
+            //     var product = await _productService.CreateProductAsync(productCreateDto);
+
+            //     var productDto = new ProductDto
+            //     {
+            //         Name = product.Name,
+            //         Price = product.Price,
+            //         Description = product.Description
+            //     };
+
+            //     return Ok(productDto);
+            // }
+            // catch (ArgumentException ex)
+            // {
+            //     return BadRequest(ex.Message);
+            // }
+            // catch (Exception)
+            // {
+            //     return StatusCode(500, "Failed to save the product to the database.");
+            // }
         }
 
         [HttpGet("/product/{name}")]

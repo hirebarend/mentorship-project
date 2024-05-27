@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MyProject.Data;
 using MyProject.Interfaces;
 using MyProject.Models.Dto;
+using MyProject.src.Application;
 using MyProject.src.Application.Dto;
 using MyProject.src.Domain.Models.Exceptions;
 using MyProject.src.Models;
@@ -19,13 +20,13 @@ namespace MyProject.Repositories
             _context = context;
         }
 
-        public async Task<Product> CreateProductAsync(ProductCreateDto productCreateDto)
+        public async Task<Product> CreateProductAsync(CreateProductCommand command)
         {
             var product = new Product
             {
-                Name = productCreateDto.Name,
-                Price = productCreateDto.Price,
-                Description = productCreateDto.Description,
+                Name = command.ProductCreateDto.Name,
+                Price = command.ProductCreateDto.Price,
+                Description = command.ProductCreateDto.Description,
                 IsActive = ProductActive,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,

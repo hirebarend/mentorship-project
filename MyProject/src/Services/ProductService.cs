@@ -6,6 +6,7 @@ using MyProject.Data;
 using MyProject.Interfaces;
 using MyProject.Models;
 using MyProject.Models.Dto;
+using MyProject.src.Application;
 using MyProject.src.Application.Dto;
 using MyProject.src.Domain.Models.Exceptions;
 using MyProject.src.Models;
@@ -21,14 +22,14 @@ namespace MyProject.Services
             _productRepository = productRepository;
         }
 
-        public async Task<Product> CreateProductAsync(ProductCreateDto productCreateDto)
+        public async Task<Product> CreateProductAsync(CreateProductCommand command)
         {
-            if (string.IsNullOrEmpty(productCreateDto.Name) || productCreateDto.Price <= 0)
+            if (string.IsNullOrEmpty(command.ProductCreateDto.Name) || command.ProductCreateDto.Price <= 0)
             {
                 throw new ArgumentException("Name and price are required for a product.");
             }
 
-            return await _productRepository.CreateProductAsync(productCreateDto);
+            return await _productRepository.CreateProductAsync(command);
         }
 
         public async Task<Product> FindByNameAsync(string name)
