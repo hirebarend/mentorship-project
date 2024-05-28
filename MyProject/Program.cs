@@ -20,9 +20,6 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IProductService, ProductService>();
 
-// builder.Services.AddScoped<IProductService, ProductService>();
-// builder.Services.AddScoped<IProductRepository, ProductRepository>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

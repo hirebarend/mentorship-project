@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyProject.Models;
+using MyProject.src.Domain.ValueObjects;
 using MyProject.src.Models;
 
 namespace MyProject.Data
@@ -20,9 +22,10 @@ namespace MyProject.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
-                .Property(p => p.Price)
-                .HasPrecision(18, 2)
-                .IsRequired();
+            .Property(p => p.Price)
+            .HasConversion(new ValueConverter<Price, decimal>(
+            v => v.Value,
+            v => new Price(v)));
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.Name)
@@ -34,22 +37,18 @@ namespace MyProject.Data
                 .HasMaxLength(500);
 
             modelBuilder.Entity<Product>()
-                .Property(p => p.IsActive)
-                .HasDefaultValue(true);
-
-            modelBuilder.Entity<Product>()
-                .Property(p => p.IsActive)
-                .HasDefaultValue(true);
+            .Property(p => p.IsActive)
+            .HasConversion(new ValueConverter<IsActive, bool>(
+            v => v.Value,
+            v => new IsActive(v)));
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.CreatedAt)
-                .HasDefaultValue(DateTime.UtcNow)
                 .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.UpdatedAt)
-                .HasDefaultValue(DateTime.UtcNow)
-                .ValueGeneratedOnUpdate();
+                .ValueGeneratedNever();
         }
     }
 }

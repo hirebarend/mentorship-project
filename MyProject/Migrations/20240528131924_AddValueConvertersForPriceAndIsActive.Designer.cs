@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyProject.Data;
 
@@ -11,9 +12,11 @@ using MyProject.Data;
 namespace MyProject.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240528131924_AddValueConvertersForPriceAndIsActive")]
+    partial class AddValueConvertersForPriceAndIsActive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,6 +53,7 @@ namespace MyProject.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
