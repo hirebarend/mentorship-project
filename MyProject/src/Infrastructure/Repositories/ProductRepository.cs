@@ -5,6 +5,7 @@ using MyProject.Interfaces;
 using MyProject.Models.Dto;
 using MyProject.src.Application.Dto;
 using MyProject.src.Domain.Models.Exceptions;
+using MyProject.src.Domain.ValueObjects;
 using MyProject.src.Models;
 
 namespace MyProject.Repositories
@@ -12,7 +13,6 @@ namespace MyProject.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly MyDbContext _context;
-        const bool ProductActive = true;
 
         public ProductRepository(MyDbContext context)
         {
@@ -26,7 +26,7 @@ namespace MyProject.Repositories
                 Name = productCreateDto.Name,
                 Price = productCreateDto.Price,
                 Description = productCreateDto.Description,
-                IsActive = ProductActive,
+                IsActive = IsActive.True,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
@@ -56,13 +56,24 @@ namespace MyProject.Repositories
                 throw new NotFoundException("Product not found");
             }
 
+            // var updatedProduct = new Product
+            // {
+            //     Name = product.Name,
+            //     Price = product.Price,
+            //     Description = product.Description,
+            //     IsActive = product.IsActive,
+            //     CreatedAt = existingProduct.CreatedAt,
+            //     UpdatedAt = DateTime.Now,
+            // };
+
             existingProduct.Id = product.Id;
             existingProduct.Name = product.Name;
-            existingProduct.Description = product.Description;
             existingProduct.Price = product.Price;
+            existingProduct.Description = product.Description;
             existingProduct.IsActive = product.IsActive;
-            existingProduct.UpdatedAt = DateTime.UtcNow;
+            existingProduct.UpdatedAt = DateTime.Now;
 
+            // await _context.Products.AddAsync(updatedProduct);
             await _context.SaveChangesAsync();
             return existingProduct;
         }

@@ -23,12 +23,18 @@ namespace MyProject.Services
 
         public async Task<Product> CreateProductAsync(ProductCreateDto productCreateDto)
         {
-            if (string.IsNullOrEmpty(productCreateDto.Name) || productCreateDto.Price <= 0)
+            if (string.IsNullOrEmpty(productCreateDto.Name))
             {
-                throw new ArgumentException("Name and price are required for a product.");
+                throw new ArgumentException("Name is required.");
             }
-
-            return await _productRepository.CreateProductAsync(productCreateDto);
+            try
+            {
+                return await _productRepository.CreateProductAsync(productCreateDto);
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException(e.Message);
+            }
         }
 
         public async Task<Product> FindByNameAsync(string name)
