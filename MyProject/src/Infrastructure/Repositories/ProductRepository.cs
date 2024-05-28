@@ -56,16 +56,6 @@ namespace MyProject.Repositories
                 throw new NotFoundException("Product not found");
             }
 
-            // var updatedProduct = new Product
-            // {
-            //     Name = product.Name,
-            //     Price = product.Price,
-            //     Description = product.Description,
-            //     IsActive = product.IsActive,
-            //     CreatedAt = existingProduct.CreatedAt,
-            //     UpdatedAt = DateTime.Now,
-            // };
-
             existingProduct.Id = product.Id;
             existingProduct.Name = product.Name;
             existingProduct.Price = product.Price;
@@ -73,7 +63,6 @@ namespace MyProject.Repositories
             existingProduct.IsActive = product.IsActive;
             existingProduct.UpdatedAt = DateTime.Now;
 
-            // await _context.Products.AddAsync(updatedProduct);
             await _context.SaveChangesAsync();
             return existingProduct;
         }
